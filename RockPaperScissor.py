@@ -10,8 +10,14 @@ while True:
 	# computer's choice
 	comp_choice = random.choice(available_choices)
 
+	# Validation loop for ties
 	if player_choice == comp_choice:
 		print('Oops... that\'s a tie\nPlease try again\n')
+		continue
+
+	# Validation loop for invalid choices
+	if player_choice not in available_choices:
+		print('Oops... that\'s an invalid choice.\n')
 		continue
 
 	break
