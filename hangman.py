@@ -1,6 +1,4 @@
 from random import choice
-import re
-
 
 # Functions
 def get_current_state(show_or_shy_dict):
@@ -27,6 +25,7 @@ for ltr in enumerate(word):
 #print(current_state)
 print(get_current_state(show_or_shy))
 current_state = get_current_state(show_or_shy)
+
 # Take user's input for letters
 life = 3
 while life > 0:
