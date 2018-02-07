@@ -1,4 +1,4 @@
-from Math import sqrt, ceil
+from math import sqrt, ceil
 
 def isPrime(num):
     prime = False
