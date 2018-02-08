@@ -1,7 +1,29 @@
-from random import choice
+from random import choice, seed
 from collections import Counter
-from string import ascii_letters as alpha
+from string import ascii_lowercase as alpha
 import re
+
+seed(42)
+
+# Willium Shakespeare's masterpiece
+masterpiece = 'methinks it is like a weasel'
+masterpiece = 'hla'
+pieces = list(masterpiece)
+
+# Process Shakespeare
+    # get count of unique characters
+    # returns a dictionary with key:value as char:count
+master_char_count = Counter(masterpiece)
+    
+    # get position
+    # list of tupels with (index,char)
+master_char_pos = char_pos(masterpiece)
+    
+    # togetherness
+master_tokens = char_tokenizer(masterpiece)
+
+# bag of acceptable characters (boc)
+boc = list(alpha) + [' ']
 
 def monkey():
     '''returns a single key (or character)'''
@@ -34,72 +56,74 @@ def score_monkey(monkeystring = monkey_masterpiece()):
     Then the function returns a average weighted score
     '''
     score = 0 ; pos_score = 0; char_count_score = 0; togh_score = 0;
-    
-    # Monkey's string (monkey masterpiece) analysis
-    monkey_char_count = Counter(monkeystring)
-    monkey_char_pos = char_pos(monkeystring)
-    
-    # Algorithm
-    # count      {char: count, char: count,}
-    # pos        [(index, char), (index, char)]
-    
-    # Character position score
-    for char in enumerate(masterpiece):
-        if char in monkey_char_pos:
-            pos_score += 1
-    
-    # Chatacter count score
-    monkey_char_count = Counter(monkeystring)
-    for char,count in master_char_count.items():
-        if char in monkey_char_count.keys():
-            if monkey_char_count[char] == count:
-                char_count_score += count
-            if monkey_char_count[char] > master_char_count[char]:
-                char_count_score += master_char_count[char]
-            elif monkey_char_count[char] < master_char_count[char]:
-                char_count_score += monkey_char_count[char]
-    # togetherness score
-    monkey_tokens = char_tokenizer(monkeystring)
-    for token in master_tokens:
-        if token in monkey_tokens:
-            togh_score += 1
-    
+    # if monkey produced Shakespeare
+    if monkeystring == masterpiece:
+        score = 100
+    else:
+        # Monkey's string (monkey masterpiece) analysis
+        monkey_char_count = Counter(monkeystring)
+        monkey_char_pos = char_pos(monkeystring)
+
+        # Algorithm
+        # count      {char: count, char: count,}
+        # pos        [(index, char), (index, char)]
+
+        # Character position score
+        for char in enumerate(masterpiece):
+            if char in monkey_char_pos:
+                pos_score += 1
+
+        # Chatacter count score
+        monkey_char_count = Counter(monkeystring)
+        for char,count in master_char_count.items():
+            if char in monkey_char_count.keys():
+                if monkey_char_count[char] == count:
+                    char_count_score += count
+                if monkey_char_count[char] > master_char_count[char]:
+                    char_count_score += master_char_count[char]
+                elif monkey_char_count[char] < master_char_count[char]:
+                    char_count_score += monkey_char_count[char]
+                            
+        # togetherness score
+        monkey_tokens = char_tokenizer(monkeystring)
+        for token in master_tokens:
+            if token in monkey_tokens:
+                togh_score += 1
+                
+
     # Calculate weighted score
     pos_weight = .4; char_count_weight = .1; togh_weight = .5
     score = (pos_score * pos_weight) + (char_count_score * char_count_weight) + (togh_score * togh_weight)
-    
+
     #return (score, pos_score, char_count_score, togh_score)
     return score
 
-
-# Willium Shakespeare's masterpiece
-masterpiece = 'methinks it is like a weasel'
-pieces = list(masterpiece)
-
-# Process Shakespeare
-    # get count of unique characters
-    # returns a dictionary with key:value as char:count
-master_char_count = Counter(masterpiece)
-    
-    # get position
-    # list of tupels with (index,char)
-master_char_pos = char_pos(masterpiece)
-    
-    # togetherness
-master_tokens = char_tokenizer(masterpiece)
-
-# bag of acceptable characters (boc)
-boc = list(alpha) + [' ']
-
-# Set code running parameters
-total_cycle = 1000
-
 # Run code
 highest_score = 0
-for cycle in range(total_cycle):
+current_score = 0
+cycle = 0
+while True:
     monkeypiece = monkey_masterpiece()
     current_score = score_monkey(monkeypiece)
-    if score > highest_score:
+    cycle +=1
+    if current_score > highest_score:
         highest_score = current_score
-        print('New top score found for Monkeypiece:\n', monkeypiece)
-        print('Score: ', highest_score, '\n')
+        print('New top Monkeypiece:', monkeypiece)
+        print('Score: ', highest_score)
+        print('Cycle # ', cycle, '\n')
+        if highest_score == 100:
+            print ('SCORE!!! after', cycle, 'cycles')
+            break
+
+# # Set code running parameters
+# total_cycle = 1000
+
+# # Run code
+# highest_score = 0
+# for cycle in range(total_cycle):
+#     monkeypiece = monkey_masterpiece()
+#     current_score = score_monkey(monkeypiece)
+#     if current_score > highest_score:
+#         highest_score = current_score
+#         print('New top score found for Monkeypiece:\n', monkeypiece)
+#         print('Score: ', highest_score, '\n')
