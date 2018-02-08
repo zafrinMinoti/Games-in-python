@@ -3,9 +3,15 @@ from time import monotonic, time
 from random import randint
 
 def show_number():
-	return randint(1, 49)
+	return randint(1, 4242)
+
 def guess_match(input_yn):
-	return True if input_yn == 'y' else False
+	if input_yn == 'y':
+		return True
+	elif input_yn == 'n':
+		return False
+	else:
+		print('INVALID INPUT')
 
 start_time = monotonic()
 end_time = start_time + 5
@@ -14,13 +20,20 @@ N = show_number()
 prim = isPrime(N)
 score = 0
 
+user_input = None
 while end_time > monotonic():
 	print('\nNumber:', N)
-	user_input = input('Is the number above prime?\n\
+
+	try:
+		if user_input is None or user_input != 'y' or user_input != 'n':
+			user_input = input('Is the number above prime?\n\
 \ty = yes\n\tn = no\n\
 You have 5 seconds... \nAnswer:\t')
+			guess = guess_match(user_input)
 
-	guess = guess_match(user_input)
+	except: 
+		continue
+		break
 	
 	if guess == prim and monotonic() < end_time:
 		print('\nYou gussed right!')
