@@ -8,10 +8,9 @@ def show_number():
 def guess_match(input_yn):
 	if input_yn == 'y':
 		return True
-	elif input_yn == 'n':
+	if input_yn == 'n':
 		return False
-	else:
-		print('INVALID INPUT')
+
 
 start_time = monotonic()
 end_time = start_time + 5
@@ -24,15 +23,14 @@ user_input = None
 while end_time > monotonic():
 	print('\nNumber:', N)
 
-	try:
-		if user_input is None or user_input != 'y' or user_input != 'n':
-			user_input = input('Is the number above prime?\n\
+	user_input = input('Is the number above prime?\n\
 \ty = yes\n\tn = no\n\
 You have 5 seconds... \nAnswer:\t')
-			guess = guess_match(user_input)
 
-	except: 
-		continue
+	guess = guess_match(user_input)
+
+	if guess is None: 
+		print('INVALID INPUT')
 		break
 	
 	if guess == prim and monotonic() < end_time:
@@ -49,3 +47,8 @@ You have 5 seconds... \nAnswer:\t')
 		break
 
 print('Score:', score)
+
+### Ways to improve
+# play multipul times
+# parallel processing?
+# as many prime numbers as one can guess within time t
