@@ -36,30 +36,17 @@ winning_sets = [{1,2,3}, {4,5,6}, {7,8,9},
 turn = 1
 positions = init_positions
 while turn <= 9:
-    #for player in [player1, player2]:
-    if turn % 2 !=0:
+    for player, player_turn_set in zip([player1, player2], [player1_turns, player2_turns]):
         print('\nAvailable Positions:', positions)
-        pos = int(input('Player 1, make your turn: '))
-        if pos not in positions:
-            print('That is not a valid turn!')
-            continue
-        make_turn(player1, pos)
-        turn +=1
-        if winner(winning_sets, player1_turns):
-            winning_statement(player1)
-            break
-        positions = available_positions(positions,player1_turns)
-    
-    if turn %2 == 0:
-        print('\nAvailable Positions:', positions)
-        pos = int(input('Player 2, make your turn: '))
-        if pos not in positions: 
+        input_pos = int(input('{} make your turn: '.format(player)))
+        if input_pos not in positions:
             print('\nThat is not a valid turn!')
             continue
-        make_turn(player2, pos)
+        make_turn(player, input_pos)
         turn +=1
-        if winner(winning_sets, player2_turns):
-            winning_statement(player2)
-            break
-        positions = available_positions(positions,player2_turns)
-    
+        
+        if winner(winning_sets, player_turn_set):
+            winning_statement(player)
+            turn = 10
+        positions = available_positions(positions,player_turn_set)
+        
