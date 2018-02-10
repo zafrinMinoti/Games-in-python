@@ -1,0 +1,65 @@
+def make_turn(player, position):
+    if player == player1:
+        player1_turns.add(position)
+    if player == player2:
+        player2_turns.add(position)
+    
+def visualize():
+    pass
+
+def available_positions(init_set, turn_set):
+    return init_set.difference(turn_set)
+
+def winner(winning_sets, player_turn_set):
+    win = False
+    for winning_set in winning_sets:
+        if winning_set == winning_set.intersection(player_turn_set):
+            win = True
+    return win
+        
+def winning_statement(player):
+    print('\nCongratulations!!!',player.upper() + '\nYOU WON!!!')
+
+init_positions = set(range(1,10))
+
+player1_turns = set()
+player2_turns = set()
+
+# Take names of the players
+player1 = input('Enter the name of Player 1: ')
+player2 = input('Enter the name of Player 2: ')
+
+winning_sets = [{1,2,3}, {4,5,6}, {7,8,9}, 
+                {1,4,7}, {2,5,8}, {3,6,9}, 
+                {1,5,9}, {3,5,7}]
+
+turn = 1
+positions = init_positions
+while turn <= 9:
+    #for player in [player1, player2]:
+    if turn % 2 !=0:
+        print('\nAvailable Positions:', positions)
+        pos = int(input('Player 1, make your turn: '))
+        if pos not in positions:
+            print('That is not a valid turn!')
+            continue
+        make_turn(player1, pos)
+        turn +=1
+        if winner(winning_sets, player1_turns):
+            winning_statement(player1)
+            break
+        positions = available_positions(positions,player1_turns)
+    
+    if turn %2 == 0:
+        print('\nAvailable Positions:', positions)
+        pos = int(input('Player 2, make your turn: '))
+        if pos not in positions: 
+            print('\nThat is not a valid turn!')
+            continue
+        make_turn(player2, pos)
+        turn +=1
+        if winner(winning_sets, player2_turns):
+            winning_statement(player2)
+            break
+        positions = available_positions(positions,player2_turns)
+    
